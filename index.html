@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mallorca 2026 Test Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    #map { height: 100vh; }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  const map = L.map('map').setView([39.60, 2.95], 10);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Load trails
+  fetch('data/rothertouren.geojson')
+    .then(res => res.json())
+    .then(data => {
+      L.geoJSON(data, {
+        style: { color: 'green' }
+      }).addTo(map);
+    });
+
+  // Load plants
+  fetch('data/flora_incognita.geojson')
+    .then(res => res.json())
+    .then(data => {
+      L.geoJSON(data, {
+        pointToLayer: (feature, latlng) =>
+          L.circleMarker(latlng, { radius: 5, color: 'orange' })
+      }).addTo(map);
+    });
+
+</script>
+
+</body>
+</html>
