@@ -25,7 +25,14 @@
     .then(res => res.json())
     .then(data => {
       L.geoJSON(data, {
-        style: { color: 'green' }
+        style: { color: 'green' },
+
+        onEachFeature: function (feature, layer) {
+        if (feature.properties && feature.properties.name) {
+          layer.bindPopup(feature.properties.name);
+        }
+        }
+
       }).addTo(map);
     });
 
@@ -35,7 +42,13 @@
     .then(data => {
       L.geoJSON(data, {
         pointToLayer: (feature, latlng) =>
-          L.circleMarker(latlng, { radius: 5, color: 'orange' })
+          L.circleMarker(latlng, { radius: 5, color: 'orange' }),
+          
+        onEachFeature: function (feature, layer) {
+        if (feature.properties && feature.properties["scientific name"]) {
+          layer.bindPopup(feature.properties["scientific name"]);
+        }
+      }
       }).addTo(map);
     });
 
