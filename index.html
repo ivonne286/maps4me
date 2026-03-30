@@ -20,6 +20,23 @@
     attribution: '&copy; OpenStreetMap contributors'
   }).addTo(map);
 
+  // Load municipales
+
+  fetch('data/municipales.geojson')
+    .then(res => res.json())
+    .then(data => {
+      L.geoJSON(data, {
+        style: {stroke: 'black', fill: false},
+
+        onEachFeature: function (feature, layer) {
+        if (feature.properties && feature.properties["NAMEUNIT"]) {
+          layer.bindPopup(feature.properties["NAMEUNIT"]);
+        }
+        }
+
+      })
+    })
+
   // Load trails
   fetch('data/rothertouren.geojson')
     .then(res => res.json())
