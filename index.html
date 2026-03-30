@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
   <link rel="stylesheet" href="css/style.css"/>
   <style>
-    #map { height: 100vh; }
+    #map { height: 90vh; }
   </style>
 </head>
 <body>
@@ -25,7 +25,7 @@
     .then(res => res.json())
     .then(data => {
       L.geoJSON(data, {
-        style: { color: 'green' },
+        style: { color: 'MidnightBlue' },
 
         onEachFeature: function (feature, layer) {
         if (feature.properties && feature.properties.name) {
@@ -42,8 +42,8 @@
     .then(data => {
       L.geoJSON(data, {
         pointToLayer: (feature, latlng) =>
-          L.circleMarker(latlng, { radius: 5, color: 'orange' }),
-          
+          L.circleMarker(latlng, { radius: 1, color: 'HotPink' }),
+
         onEachFeature: function (feature, layer) {
         if (feature.properties && feature.properties["scientific name"]) {
           layer.bindPopup(feature.properties["scientific name"]);
