@@ -26,7 +26,12 @@
     .then(res => res.json())
     .then(data => {
       L.geoJSON(data, {
-        style: {color: 'black', fill: false},
+        style: {
+          color: 'grey', 
+          weight: 0.5,
+          fillColor: 'transparent',
+          fillOpacity: 0
+        },
 
         onEachFeature: function (feature, layer) {
         if (feature.properties && feature.properties["NAMEUNIT"]) {
@@ -42,7 +47,7 @@
     .then(res => res.json())
     .then(data => {
       L.geoJSON(data, {
-        style: { color: 'MidnightBlue' },
+        style: { color: 'Indigo' },
 
         onEachFeature: function (feature, layer) {
         if (feature.properties && feature.properties.name) {
@@ -59,7 +64,7 @@
     .then(data => {
       L.geoJSON(data, {
         pointToLayer: (feature, latlng) =>
-          L.circleMarker(latlng, { radius: 1, color: 'HotPink' }),
+          L.circleMarker(latlng, { radius: 1, color: 'Green' }),
 
         onEachFeature: function (feature, layer) {
         if (feature.properties && feature.properties["scientific name"]) {
