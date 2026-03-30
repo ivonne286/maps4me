@@ -26,7 +26,7 @@
     .then(res => res.json())
     .then(data => {
       L.geoJSON(data, {
-        style: {stroke: 'black', fill: false},
+        style: {color: 'black', fill: false},
 
         onEachFeature: function (feature, layer) {
         if (feature.properties && feature.properties["NAMEUNIT"]) {
@@ -34,8 +34,8 @@
         }
         }
 
-      })
-    })
+      }).addTo(map);
+    });
 
   // Load trails
   fetch('data/rothertouren.geojson')
