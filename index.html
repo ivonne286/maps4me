@@ -21,26 +21,44 @@
   }).addTo(map);
 
   // Load municipales
-
   fetch('data/municipales.geojson')
     .then(res => res.json())
     .then(data => {
-      L.geoJSON(data, {
+      const geojson = L.geoJSON(data, {
         style: {
-          color: 'grey', 
-          weight: 0.5,
-          fillColor: 'transparent',
-          fillOpacity: 0
-        },
-
-        onEachFeature: function (feature, layer) {
-        if (feature.properties && feature.properties["NAMEUNIT"]) {
-          layer.bindPopup(feature.properties["NAMEUNIT"]);
+          color: 'black',  // border only
+          weight: 1,
+          fill: false
         }
-        }
-
       }).addTo(map);
+
+      // Add labels in the center of each polygon
+      geojson.eachLayer(function(layer) {
+        if (layer.feature.properties && layer.feature.properties["NAMEUNIT"]) {
+          const name = layer.feature.properties["NAMEUNIT"];
+          const center = layer.getBounds().getCenter(); // centroid of polygon
+          const label = L.marker(center, {
+            icon: L.divIcon({
+              className: 'municipal-label',
+              html: `<span>${name}</span>`,
+              iconSize: [100, 20],
+              iconAnchor: [50, 10]
+            })
+          }).addTo(map);
+
+          // Show label only above a certain zoom
+          map.on('zoomend', function() {
+            if (map.getZoom() >= 10) {
+              label.getElement().style.display = 'block';
+            } else {
+              label.getElement().style.display = 'none';
+            }
+          });
+        }
+      });
     });
+
+
 
   // Load trails
   fetch('data/rothertouren.geojson')
